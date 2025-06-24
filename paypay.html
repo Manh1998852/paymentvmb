@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán Vé Máy Bay</title>
+    <style>
+        /* Cấu hình chung */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        /* Thông báo ở đầu */
+        .info-message {
+            font-size: 1.3em;
+            color: #555;
+            text-align: center;
+            background-color: #fff8e1;
+            padding: 15px;
+            border-left: 5px solid #ff9800;
+            margin-bottom: 25px;
+            border-radius: 8px;
+        }
+
+        /* Phần hiển thị văn bản và mã QR */
+        .info {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .info-left {
+            width: 48%;
+            padding: 20px;
+            background-color: #fafafa;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-right {
+            width: 48%;
+            text-align: center;
+            padding: 20px;
+            background-color: #fafafa;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tăng kích thước chữ trong các phần văn bản */
+        .info-left p {
+            font-size: 1.3em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid #ddd; /* Thêm đường viền cho ô văn bản */
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .info-left p strong {
+            font-weight: 700;
+        }
+
+        /* Phần nhập thông tin thanh toán */
+        .input-section {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            font-size: 1.3em;  /* Tăng kích thước chữ label */
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em; /* Tăng kích thước chữ trong các ô nhập liệu */
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .qr-code img {
+            width: 300px;  /* Tăng kích thước mã QR */
+            height: 300px; /* Tăng kích thước mã QR */
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .qr-code img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Nút chụp ảnh màn hình */
+        .screenshot-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.3em; /* Tăng kích thước chữ nút */
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .screenshot-button:hover {
+            background-color: #45a049;
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 1.1em; /* Tăng kích thước chữ trong footer */
+            margin-top: 40px;
+            color: #777;
+        }
+
+        /* Thêm hiệu ứng cho select */
+        select {
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+
+        select option {
+            padding: 10px;
+        }
+
+        /* Media Queries cho di động */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info-left, .info-right {
+                width: 100%;
+                text-align: center;
+            }
+
+            .screenshot-button {
+                font-size: 1.2em;
+            }
+
+            .footer {
+                font-size: 1em;
+            }
+        }
+
+        /* Media Queries cho thiết bị rất nhỏ (mobile nhỏ) */
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 2em; /* Giảm kích thước tiêu đề trên mobile nhỏ */
+            }
+
+            .info-message {
+                font-size: 1.1em;
+            }
+
+            .input-group input, .input-group select {
+                font-size: 1.1em; /* Tăng font chữ trong ô nhập liệu */
+                padding: 12px;
+            }
+
+            .screenshot-button {
+                font-size: 1.2em;
+                padding: 14px;
+            }
+
+            .footer {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="paymentContainer">
+    <h1>Thanh Toán Vé Máy Bay</h1>
+
+    <div class="info-message">
+        <p>Sau khi nhận được thông tin đặt dịch vụ, nhân viên chăm sóc khách hàng sẽ liên hệ để xác nhận và hướng dẫn thêm thủ tục thanh toán.</p>
+    </div>
+
+    <div class="info">
+        <!-- Văn bản bên trái -->
+        <div class="info-left">
+            <p><strong>Tên tài khoản:</strong> <span id="displayAccountName">CONG TY TNHH TM OGP DONG TAY</span></p>
+            <p><strong>Số tiền:</strong> <span id="displayAmount">2,528,000 VNĐ</span></p>
+            <p><strong>Nội dung:</strong> <span id="displayDescription">VJ6O5KT004 (Copy)</span></p>
+            <p><strong>Ngân hàng:</strong> <span id="displayBank">VPBank - TMCP Việt Nam Thịnh Vượng</span></p>
+            <p><strong>Số tài khoản:</strong> <span id="displayAccountNumber">412567331</span></p>
+        </div>
+
+        <!-- Mã QR bên phải -->
+        <div class="info-right">
+            <div class="qr-code">
+                <p><strong>Mã QR thanh toán:</strong></p>
+                <img id="qrCodeImage" src="https://img.vietqr.io/image/VPBank-412567331-vietqr_net.png" alt="QR Code">
+            </div>
+        </div>
+    </div>
+
+    <!-- Phần nhập thông tin thanh toán -->
+    <div class="input-section">
+        <div class="input-group">
+            <label for="accountName">Tên tài khoản:</label>
+            <input type="text" id="accountName" value="CONG TY TNHH TM OGP DONG TAY">
+        </div>
+        <div class="input-group">
+            <label for="amount">Số tiền:</label>
+            <input type="text" id="amount" value="2,528,000 VNĐ">
+        </div>
+        <div class="input-group">
+            <label for="description">Nội dung:</label>
+            <input type="text" id="description" value="VJ6O5KT004 (Copy)">
+        </div>
+        <div class="input-group">
+            <label for="bankSelect">Ngân hàng:</label>
+            <select id="bankSelect">
+                <option value="VPBank">VPBank - TMCP Việt Nam Thịnh Vượng</option>
+                <option value="ACB">ACB - Ngân hàng Á Châu</option>
+                <option value="BIDV">BIDV - Ngân hàng Đầu tư và Phát triển Việt Nam</option>
+                <option value="MB">MB - Ngân hàng Quân đội</option>
+                <option value="VCB">VCB - Ngân hàng Vietcombank</option>
+                <option value="VIB">VIB - Ngân hàng VietinBank</option>
+                <option value="TPBank">TPBank - Ngân hàng Tiên Phong</option>
+                <option value="SCB">SCB - Ngân hàng Sài Gòn Thương Tín</option>
+                <option value="Sacombank">Sacombank - Ngân hàng Sài Gòn Thương Tín</option>
+                <option value="Techcombank">Techcombank - Ngân hàng Kỹ Thương Việt Nam</option>
+                <option value="Eximbank">Eximbank - Ngân hàng Xuất nhập khẩu Việt Nam</option>
+                <option value="HDBank">HDBank - Ngân hàng TMCP Phát triển TP.HCM</option>
+                <option value="OCB">OCB - Ngân hàng Phương Đông</option>
+                <option value="VietABank">VietABank - Ngân hàng Viet Á</option>
+                <option value="SHB">SHB - Ngân hàng Sài Gòn - Hà Nội</option>
+                <option value="LienVietPostBank">LienVietPostBank - Ngân hàng Liên Việt PostBank</option>
+                <option value="MBbank">MBbank - Ngân hàng Quân đội</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="accountNumber">Số tài khoản:</label>
+            <input type="text" id="accountNumber" value="412567331">
+        </div>
+    </div>
+
+    <button class="screenshot-button" id="screenshotBtn">Chụp ảnh màn hình</button>
+
+    <div class="footer">
+        <p>Heo Rừng Đẹp Trai Tele @qkz987</p>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script>
+    function updateDisplayedText() {
+        // Lấy giá trị từ các ô nhập liệu
+        var accountName = document.getElementById('accountName').value;
+        var amount = document.getElementById('amount').value;
+        var description = document.getElementById('description').value;
+        var bank = document.getElementById('bankSelect').value;
+        var accountNumber = document.getElementById('accountNumber').value;
+
+        // Cập nhật các văn bản hiển thị
+        document.getElementById('displayAccountName').textContent = accountName;
+        document.getElementById('displayAmount').textContent = amount;
+        document.getElementById('displayDescription').textContent = description;
+        document.getElementById('displayBank').textContent = bank;
+        document.getElementById('displayAccountNumber').textContent = accountNumber;
+
+        // Cập nhật mã QR
+        var paymentInfo = 'bank=' + bank + '&account=' + accountNumber + '&amount=' + amount + '&note=' + description;
+        var qrCodeURL = 'https://img.vietqr.io/image/' + bank + '-' + accountNumber + '-vietqr_net.png?' + paymentInfo;
+        document.getElementById('qrCodeImage').src = qrCodeURL;
+    }
+
+    // Lắng nghe sự kiện thay đổi trên các ô nhập liệu
+    document.getElementById('accountName').addEventListener('input', updateDisplayedText);
+    document.getElementById('amount').addEventListener('input', updateDisplayedText);
+    document.getElementById('description').addEventListener('input', updateDisplayedText);
+    document.getElementById('bankSelect').addEventListener('change', updateDisplayedText);
+    document.getElementById('accountNumber').addEventListener('input', updateDisplayedText);
+
+    // Gọi hàm cập nhật ngay khi tải trang
+    updateDisplayedText();
+
+    // Chụp ảnh màn hình
+    document.getElementById('screenshotBtn').addEventListener('click', function() {
+        html2canvas(document.getElementById("paymentContainer")).then(function(canvas) {
+            var link = document.createElement('a');
+            link.href = canvas.toDataURL("image/png");
+            link.download = 'payment-screenshot.png';
+            link.click();
+        });
+    });
+</script>
+
+</body>
+</html>
